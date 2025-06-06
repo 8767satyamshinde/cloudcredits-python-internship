@@ -1,59 +1,83 @@
-# advance calulater using tkinter
 import tkinter as tk
-from math import sqrt
+from math import sqrt, sin, cos, tan, log, radians
 
 def click(event):
     text = event.widget.cget("text")
     current = entry.get()
 
-    if text == "=":
-        try:
-            result = str(eval(current))
+    try:
+        if text == "=":
+            result = eval(current)
             entry.delete(0, tk.END)
             entry.insert(tk.END, result)
-        except:
+
+        elif text == "C":
             entry.delete(0, tk.END)
-            entry.insert(tk.END, "Error")
-    elif text == "C":
+
+        elif text in ["√", "sin", "cos", "tan", "log"]:
+            if current == "":
+                entry.delete(0, tk.END)
+                entry.insert(tk.END, "Enter number first")
+            else:
+                value = float(current)
+                entry.delete(0, tk.END)
+
+                if text == "√":
+                    entry.insert(tk.END, sqrt(value))
+                elif text == "sin":
+                    entry.insert(tk.END, sin(radians(value)))
+                elif text == "cos":
+                    entry.insert(tk.END, cos(radians(value)))
+                elif text == "tan":
+                    entry.insert(tk.END, tan(radians(value)))
+                elif text == "log":
+                    if value > 0:
+                        entry.insert(tk.END, log(value))
+                    else:
+                        entry.insert(tk.END, "Invalid (log)")
+        else:
+            entry.insert(tk.END, text)
+
+    except:
         entry.delete(0, tk.END)
-    elif text == "√":
-        try:
-            value = float(current)
-            entry.delete(0, tk.END)
-            entry.insert(tk.END, sqrt(value))
-        except:
-            entry.delete(0, tk.END)
-            entry.insert(tk.END, "Error")
-    else:
-        entry.insert(tk.END, text)
+        entry.insert(tk.END, "Error")
 
+# GUI Setup
 root = tk.Tk()
-root.title("Advanced Calculator - Cloudcredits Internship")
-root.geometry("320x450")
-root.resizable(False, False)
-root.config(bg="#f0f0f0")
+root.title("Scientific Calculator - Cloudcredits Internship")
+root.geometry("600x700")  
+root.minsize(400, 500)     
+root.config(bg="#e6f2ff")
 
-entry = tk.Entry(root, font=("Arial", 20), borderwidth=3, relief=tk.RIDGE, justify=tk.RIGHT)
-entry.pack(fill=tk.BOTH, padx=10, pady=15, ipady=10)
+
+for i in range(6):  # Total rows
+    root.grid_rowconfigure(i, weight=1)
+for j in range(5):  # Total columns
+    root.grid_columnconfigure(j, weight=1)
+
+# Entry box
+entry = tk.Entry(root, font=("Arial", 24), bd=5, relief=tk.RIDGE, justify=tk.RIGHT)
+entry.grid(row=0, column=0, columnspan=5, sticky="nsew", padx=10, pady=20, ipady=10)
+
 
 buttons = [
-    ["7", "8", "9", "/"],
-    ["4", "5", "6", "*"],
-    ["1", "2", "3", "-"],
-    ["0", ".", "=", "+"],
-    ["C", "√", "%", "**"]
+    ["7", "8", "9", "/", "√"],
+    ["4", "5", "6", "*", "sin"],
+    ["1", "2", "3", "-", "cos"],
+    ["0", ".", "=", "+", "tan"],
+    ["C", "log", "%", "**", ""]
 ]
 
-for row_values in buttons:
-    row_frame = tk.Frame(root, bg="#f0f0f0")
-    row_frame.pack(expand=True, fill="both")
-    for val in row_values:
-        btn = tk.Button(
-            row_frame, text=val, font=("Arial", 16),
-            bg="#ffffff", fg="#333333", width=6, height=2,
-            relief=tk.GROOVE, borderwidth=1
-        )
-        btn.pack(side=tk.LEFT, expand=True, fill="both", padx=2, pady=2)
-        btn.bind("<Button-1>", click)
+# Create buttons
+for i, row_values in enumerate(buttons, start=1):
+    for j, val in enumerate(row_values):
+        if val != "":
+            btn = tk.Button(
+                root, text=val, font=("Arial", 18),
+                bg="#ffffff", fg="#333333",
+                relief=tk.RIDGE, bd=2
+            )
+            btn.grid(row=i, column=j, sticky="nsew", padx=3, pady=3)
+            btn.bind("<Button-1>", click)
 
 root.mainloop()
