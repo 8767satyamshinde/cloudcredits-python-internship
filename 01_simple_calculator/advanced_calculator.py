@@ -6,8 +6,26 @@ from datetime import datetime
 import os
 import webbrowser
 
-# Store calculation history
+# === Store History ===
 history = []
+
+# === Main Window ===
+root = tk.Tk()
+root.title("Scientific Calculator - Cloudcredits Internship")
+
+# === Responsive Scaling ===
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+app_width = int(screen_width * 0.35)
+app_height = int(screen_height * 0.8)
+root.geometry(f"{app_width}x{app_height}")
+root.minsize(500, 600)
+root.config(bg="#e6f2ff")
+
+# === Dynamic Font Sizes ===
+FONT_SIZE = int(app_width * 0.025)
+BUTTON_FONT = ("Arial", FONT_SIZE)
+ENTRY_FONT = ("Arial", FONT_SIZE + 4)
 
 # === Show History Function ===
 def show_history():
@@ -17,18 +35,15 @@ def show_history():
 
     hist_window = Toplevel(root)
     hist_window.title("Calculation History")
-    hist_window.geometry("600x800")  # Same size as calculator
+    hist_window.geometry(f"{app_width}x{app_height}")
     hist_window.config(bg="#f9f9f9")
-    hist_window.minsize(500, 400)  # Resizable like calculator
 
-    # === History Text Box ===
-    hist_text = tk.Text(hist_window, font=("Arial", 14), wrap="word", bg="white", fg="black", relief=tk.SUNKEN, bd=4)
+    hist_text = tk.Text(hist_window, font=BUTTON_FONT, wrap="word", bg="white", fg="black", relief=tk.SUNKEN, bd=4)
     hist_text.pack(expand=True, fill="both", padx=20, pady=(20, 10))
     for item in history:
         hist_text.insert(tk.END, item + "\n")
     hist_text.config(state='disabled')
 
-    # === Save PDF Functions ===
     def generate_pdf(path):
         c = canvas.Canvas(path)
         c.setFont("Helvetica-Bold", 16)
@@ -54,11 +69,9 @@ def show_history():
             messagebox.showerror("Error", f"Quick Save Failed:\n{e}")
 
     def save_as_pdf():
-        filepath = filedialog.asksaveasfilename(
-            defaultextension=".pdf",
-            filetypes=[("PDF files", "*.pdf")],
-            title="Save History As PDF"
-        )
+        filepath = filedialog.asksaveasfilename(defaultextension=".pdf",
+                                                filetypes=[("PDF files", "*.pdf")],
+                                                title="Save History As PDF")
         if filepath:
             try:
                 generate_pdf(filepath)
@@ -67,19 +80,18 @@ def show_history():
             except Exception as e:
                 messagebox.showerror("Error", f"Save As Failed:\n{e}")
 
-    # === Button Frame ===
     button_frame = tk.Frame(hist_window, bg="#f9f9f9")
     button_frame.pack(pady=(5, 20))
 
-    save_btn = tk.Button(button_frame, text="Save", font=("Arial", 14), bg="#4CAF50", fg="white",
+    save_btn = tk.Button(button_frame, text="Save", font=BUTTON_FONT, bg="#4CAF50", fg="white",
                          padx=15, pady=5, command=quick_save_pdf)
-    saveas_btn = tk.Button(button_frame, text="Save As", font=("Arial", 14), bg="#2196F3", fg="white",
+    saveas_btn = tk.Button(button_frame, text="Save As", font=BUTTON_FONT, bg="#2196F3", fg="white",
                            padx=15, pady=5, command=save_as_pdf)
 
     save_btn.pack(side=tk.LEFT, padx=15)
     saveas_btn.pack(side=tk.LEFT, padx=15)
 
-# === Click Handler Function ===
+# === Click Function ===
 def click(event):
     text = event.widget.cget("text")
     current = entry.get()
@@ -90,10 +102,8 @@ def click(event):
             history.append(f"{current} = {result}")
             entry.delete(0, tk.END)
             entry.insert(tk.END, result)
-
         elif text == "C":
             entry.delete(0, tk.END)
-
         elif text in ["√", "sin", "cos", "tan", "log"]:
             if current == "":
                 entry.insert(tk.END, "Enter number first")
@@ -118,18 +128,11 @@ def click(event):
                 entry.insert(tk.END, result)
         else:
             entry.insert(tk.END, text)
-
     except Exception:
         entry.delete(0, tk.END)
         entry.insert(tk.END, "Error")
 
-# === GUI Setup ===
-root = tk.Tk()
-root.title("Scientific Calculator - Cloudcredits Internship")
-root.geometry("600x800")
-root.config(bg="#e6f2ff")
-
-# === Set icon ===
+# === Set Icon ===
 try:
     root.iconbitmap("calculator.ico")
 except:
@@ -142,17 +145,17 @@ try:
 except:
     pass
 
-# === Entry box ===
-entry = tk.Entry(root, font=("Arial", 24), bd=5, relief=tk.RIDGE, justify=tk.RIGHT)
+# === Entry Widget ===
+entry = tk.Entry(root, font=ENTRY_FONT, bd=5, relief=tk.RIDGE, justify=tk.RIGHT)
 entry.grid(row=1, column=0, columnspan=5, sticky="nsew", padx=10, pady=10, ipady=10)
 
-# === Layout config ===
+# === Grid Weighting ===
 for i in range(9):
     root.grid_rowconfigure(i, weight=1)
 for j in range(5):
     root.grid_columnconfigure(j, weight=1)
 
-# === Buttons layout ===
+# === Buttons ===
 buttons = [
     ["7", "8", "9", "/", "√"],
     ["4", "5", "6", "*", "sin"],
@@ -164,12 +167,12 @@ buttons = [
 for i, row in enumerate(buttons, start=2):
     for j, val in enumerate(row):
         if val:
-            btn = tk.Button(root, text=val, font=("Arial", 18), bg="#ffffff", fg="#333333", relief=tk.RIDGE, bd=2)
+            btn = tk.Button(root, text=val, font=BUTTON_FONT, bg="#ffffff", fg="#333333", relief=tk.RIDGE, bd=2)
             btn.grid(row=i, column=j, sticky="nsew", padx=3, pady=3)
             btn.bind("<Button-1>", click)
 
 # === History Button ===
-tk.Button(root, text="Show History", font=("Arial", 18), bg="#2196F3", fg="white",
+tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white",
           relief=tk.RIDGE, bd=2, command=show_history).grid(row=7, column=0, columnspan=5, sticky="nsew", padx=10, pady=10)
 
 # === Start App ===
