@@ -98,12 +98,17 @@ def click(event):
 
     try:
         if text == "=":
-            result = eval(current)
-            history.append(f"{current} = {result}")
+            expression = current.replace("%", "/100")
+            result = eval(expression)
+            result = round(result, 4)
+            if not history or history[-1] != f"{current} = {result}":
+                history.append(f"{current} = {result}")
             entry.delete(0, tk.END)
             entry.insert(tk.END, result)
         elif text == "C":
             entry.delete(0, tk.END)
+        elif text == "⌫":
+            entry.delete(len(current) - 1, tk.END)
         elif text in ["√", "sin", "cos", "tan", "log"]:
             if current == "":
                 entry.insert(tk.END, "Enter number first")
@@ -124,6 +129,7 @@ def click(event):
                     else:
                         entry.insert(tk.END, "Invalid (log)")
                         return
+                result = round(result, 4)
                 history.append(f"{text}({value}) = {result}")
                 entry.insert(tk.END, result)
         else:
@@ -131,6 +137,18 @@ def click(event):
     except Exception:
         entry.delete(0, tk.END)
         entry.insert(tk.END, "Error")
+
+# === Keyboard Support ===
+def on_key(event):
+    key = event.char
+    if key in '0123456789.+-*/%':
+        entry.insert(tk.END, key)
+    elif key == '\r':  # Enter key
+        click(type('Event', (object,), {'widget': type('W', (), {'cget': lambda s: '='})()})())
+    elif key == '\x08':  # Backspace
+        entry.delete(len(entry.get()) - 1, tk.END)
+
+root.bind("<Key>", on_key)
 
 # === Set Icon ===
 try:
@@ -161,7 +179,7 @@ buttons = [
     ["4", "5", "6", "*", "sin"],
     ["1", "2", "3", "-", "cos"],
     ["0", ".", "=", "+", "tan"],
-    ["C", "log", "%", "**", ""]
+    ["C", "log", "%", "**", "⌫"]
 ]
 
 for i, row in enumerate(buttons, start=2):
