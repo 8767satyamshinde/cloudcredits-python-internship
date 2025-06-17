@@ -6,8 +6,9 @@ from datetime import datetime
 import os
 import webbrowser
 
-# === Store History ===
+# === Store History & Memory ===
 history = []
+memory_value = 0
 
 # === Main Window ===
 root = tk.Tk()
@@ -93,6 +94,7 @@ def show_history():
 
 # === Click Function ===
 def click(event):
+    global memory_value
     text = event.widget.cget("text")
     current = entry.get()
 
@@ -105,10 +107,13 @@ def click(event):
                 history.append(f"{current} = {result}")
             entry.delete(0, tk.END)
             entry.insert(tk.END, result)
+
         elif text == "C":
             entry.delete(0, tk.END)
+
         elif text == "⌫":
             entry.delete(len(current) - 1, tk.END)
+
         elif text in ["√", "sin", "cos", "tan", "log"]:
             if current == "":
                 entry.insert(tk.END, "Enter number first")
@@ -132,8 +137,27 @@ def click(event):
                 result = round(result, 4)
                 history.append(f"{text}({value}) = {result}")
                 entry.insert(tk.END, result)
+
+        elif text == "M+":
+            if current != "":
+                memory_value += float(current)
+                messagebox.showinfo("Memory", f"Added to memory: {memory_value}")
+
+        elif text == "M-":
+            if current != "":
+                memory_value -= float(current)
+                messagebox.showinfo("Memory", f"Subtracted from memory: {memory_value}")
+
+        elif text == "MR":
+            entry.insert(tk.END, str(memory_value))
+
+        elif text == "MC":
+            memory_value = 0
+            messagebox.showinfo("Memory", "Memory cleared.")
+
         else:
             entry.insert(tk.END, text)
+
     except Exception:
         entry.delete(0, tk.END)
         entry.insert(tk.END, "Error")
@@ -168,20 +192,22 @@ entry = tk.Entry(root, font=ENTRY_FONT, bd=5, relief=tk.RIDGE, justify=tk.RIGHT)
 entry.grid(row=1, column=0, columnspan=5, sticky="nsew", padx=10, pady=10, ipady=10)
 
 # === Grid Weighting ===
-for i in range(9):
+for i in range(10):  # increased from 9 to 10
     root.grid_rowconfigure(i, weight=1)
 for j in range(5):
     root.grid_columnconfigure(j, weight=1)
 
-# === Buttons ===
+# === Buttons Layout with Memory Row ===
 buttons = [
     ["7", "8", "9", "/", "√"],
     ["4", "5", "6", "*", "sin"],
     ["1", "2", "3", "-", "cos"],
     ["0", ".", "=", "+", "tan"],
-    ["C", "log", "%", "**", "⌫"]
+    ["C", "log", "%", "**", "⌫"],
+    ["M+", "M-", "MR", "MC", ""]
 ]
 
+# === Create Buttons ===
 for i, row in enumerate(buttons, start=2):
     for j, val in enumerate(row):
         if val:
@@ -191,7 +217,7 @@ for i, row in enumerate(buttons, start=2):
 
 # === History Button ===
 tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white",
-          relief=tk.RIDGE, bd=2, command=show_history).grid(row=7, column=0, columnspan=5, sticky="nsew", padx=10, pady=10)
+          relief=tk.RIDGE, bd=2, command=show_history).grid(row=8, column=0, columnspan=5, sticky="nsew", padx=10, pady=10)
 
 # === Start App ===
 root.mainloop()
