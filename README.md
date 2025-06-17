@@ -1,4 +1,4 @@
-# ☁️ Cloudcredits Python Internship Projects
+# ☁️ cloudcredits-python-internship
 
 This repository contains Python projects completed during the **Cloudcredits Internship**.
 
@@ -6,29 +6,43 @@ This repository contains Python projects completed during the **Cloudcredits Int
 
 ## 📘 Project: Scientific Calculator 🧮
 
-A GUI-based scientific calculator developed using Python and Tkinter.  
-This app includes:
-
-- ✅ Basic Arithmetic Operations
-- ✅ Scientific Functions (√, sin, cos, tan, log)
-- ✅ Memory Buttons (M+, M-, MR, MC)
-- ✅ Calculation History Panel
-- ✅ PDF Export of History
-- ✅ Keyboard Input Support
-- ✅ Modern UI with Dynamic Font Scaling
+A GUI-based scientific calculator built with Python and Tkinter.
 
 ---
 
-### 🗂 Folder: `01_simple_calculator`
+### ✅ Features
 
-- `calculator.py`: Main application file
-- `Calculator_History.pdf`: Sample exported history
-- `logo.png`, `calculator.ico`: App icon & branding (optional)
+- Basic Arithmetic Operations (`+`, `-`, `*`, `/`, `%`, `**`)
+- Scientific Functions:
+  - Square Root `√`
+  - Trigonometric: `sin`, `cos`, `tan`
+  - Logarithm: `log`
+- **Memory Operations**:
+  - `M+` ➜ Add to Memory
+  - `M-` ➜ Subtract from Memory
+  - `MR` ➜ Recall Memory
+  - `MC` ➜ Clear Memory
+- History Panel with Scrollable View
+- Save History as PDF
+- Responsive UI with Dynamic Font Scaling
+- Keyboard Input Support
 
 ---
 
-### 🚀 How to Run
+### 📁 Folder: `01_simple_calculator`
 
-1. Install required packages (Tkinter is built-in; install ReportLab):
-   ```bash
-   pip install reportlab
+Contains the full calculator app:
+- `calculator.py` – Main Python code for the scientific calculator
+- `Calculator_History.pdf` – Example exported history
+- `logo.png` (optional) – Branding image
+- `calculator.ico` (optional) – App icon
+
+---
+
+### ▶️ How to Run
+
+Make sure Python and the required packages are installed:
+
+```bash
+pip install reportlab
+python calculator.py
