@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox, Toplevel, PhotoImage, filedialog
-from math import sqrt, sin, cos, tan, log, radians
+from tkinter import messagebox, Toplevel, PhotoImage, filedialog, Scrollbar
+from math import sqrt, sin, cos, tan, log10, radians
 from reportlab.pdfgen import canvas
 from datetime import datetime
 import os
@@ -9,24 +9,35 @@ import webbrowser
 # === Store History & Memory ===
 history = []
 memory_value = 0
+dark_mode = False
 
 # === Main Window ===
 root = tk.Tk()
 root.title("Scientific Calculator - Cloudcredits Internship")
 
-# === Responsive Scaling ===
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 app_width = int(screen_width * 0.35)
 app_height = int(screen_height * 0.8)
 root.geometry(f"{app_width}x{app_height}")
 root.minsize(500, 600)
-root.config(bg="#e6f2ff")
 
-# === Dynamic Font Sizes ===
+# === Fonts ===
 FONT_SIZE = int(app_width * 0.025)
 BUTTON_FONT = ("Arial", FONT_SIZE)
 ENTRY_FONT = ("Arial", FONT_SIZE + 4)
+
+# === Function to Toggle Dark Mode ===
+def toggle_dark_mode():
+    global dark_mode
+    dark_mode = not dark_mode
+    bg_color = "#121212" if dark_mode else "#e6f2ff"
+    fg_color = "white" if dark_mode else "#333333"
+    entry.config(bg=bg_color, fg=fg_color, insertbackground=fg_color)
+    root.config(bg=bg_color)
+    for child in root.winfo_children():
+        if isinstance(child, tk.Button):
+            child.config(bg="#333333" if dark_mode else "#ffffff", fg=fg_color)
 
 # === Show History Function ===
 def show_history():
@@ -39,11 +50,16 @@ def show_history():
     hist_window.geometry(f"{app_width}x{app_height}")
     hist_window.config(bg="#f9f9f9")
 
-    hist_text = tk.Text(hist_window, font=BUTTON_FONT, wrap="word", bg="white", fg="black", relief=tk.SUNKEN, bd=4)
+    scrollbar = Scrollbar(hist_window)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    hist_text = tk.Text(hist_window, font=BUTTON_FONT, wrap="word", bg="white", fg="black",
+                        relief=tk.SUNKEN, bd=4, yscrollcommand=scrollbar.set)
     hist_text.pack(expand=True, fill="both", padx=20, pady=(20, 10))
     for item in history:
         hist_text.insert(tk.END, item + "\n")
     hist_text.config(state='disabled')
+    scrollbar.config(command=hist_text.yview)
 
     def generate_pdf(path):
         c = canvas.Canvas(path)
@@ -81,16 +97,22 @@ def show_history():
             except Exception as e:
                 messagebox.showerror("Error", f"Save As Failed:\n{e}")
 
-    button_frame = tk.Frame(hist_window, bg="#f9f9f9")
-    button_frame.pack(pady=(5, 20))
+    def clear_history():
+        global history
+        history = []
+        messagebox.showinfo("History", "History cleared.")
+        hist_window.destroy()
 
-    save_btn = tk.Button(button_frame, text="Save", font=BUTTON_FONT, bg="#4CAF50", fg="white",
-                         padx=15, pady=5, command=quick_save_pdf)
-    saveas_btn = tk.Button(button_frame, text="Save As", font=BUTTON_FONT, bg="#2196F3", fg="white",
-                           padx=15, pady=5, command=save_as_pdf)
+    btn_frame = tk.Frame(hist_window, bg="#f9f9f9")
+    btn_frame.pack(pady=(5, 20))
 
-    save_btn.pack(side=tk.LEFT, padx=15)
-    saveas_btn.pack(side=tk.LEFT, padx=15)
+    save_btn = tk.Button(btn_frame, text="Save", font=BUTTON_FONT, bg="#4CAF50", fg="white", padx=10, command=quick_save_pdf)
+    saveas_btn = tk.Button(btn_frame, text="Save As", font=BUTTON_FONT, bg="#2196F3", fg="white", padx=10, command=save_as_pdf)
+    clear_btn = tk.Button(btn_frame, text="Clear", font=BUTTON_FONT, bg="red", fg="white", padx=10, command=clear_history)
+
+    save_btn.pack(side=tk.LEFT, padx=10)
+    saveas_btn.pack(side=tk.LEFT, padx=10)
+    clear_btn.pack(side=tk.LEFT, padx=10)
 
 # === Click Function ===
 def click(event):
@@ -130,7 +152,7 @@ def click(event):
                     result = tan(radians(value))
                 elif text == "log":
                     if value > 0:
-                        result = log(value)
+                        result = log10(value)
                     else:
                         entry.insert(tk.END, "Invalid (log)")
                         return
@@ -155,6 +177,11 @@ def click(event):
             memory_value = 0
             messagebox.showinfo("Memory", "Memory cleared.")
 
+        elif text == "Copy":
+            root.clipboard_clear()
+            root.clipboard_append(entry.get())
+            messagebox.showinfo("Copied", "Result copied to clipboard!")
+
         else:
             entry.insert(tk.END, text)
 
@@ -162,14 +189,14 @@ def click(event):
         entry.delete(0, tk.END)
         entry.insert(tk.END, "Error")
 
-# === Keyboard Support ===
+# === Keyboard Input Support ===
 def on_key(event):
     key = event.char
     if key in '0123456789.+-*/%':
         entry.insert(tk.END, key)
-    elif key == '\r':  # Enter key
+    elif key == '\r':
         click(type('Event', (object,), {'widget': type('W', (), {'cget': lambda s: '='})()})())
-    elif key == '\x08':  # Backspace
+    elif key == '\x08':
         entry.delete(len(entry.get()) - 1, tk.END)
 
 root.bind("<Key>", on_key)
@@ -188,36 +215,44 @@ except:
     pass
 
 # === Entry Widget ===
-entry = tk.Entry(root, font=ENTRY_FONT, bd=5, relief=tk.RIDGE, justify=tk.RIGHT)
+entry = tk.Entry(root, font=ENTRY_FONT, bd=5, relief=tk.RIDGE, justify=tk.RIGHT, bg="#e6f2ff", fg="#333333")
 entry.grid(row=1, column=0, columnspan=5, sticky="nsew", padx=10, pady=10, ipady=10)
+entry.focus_set()
 
-# === Grid Weighting ===
-for i in range(10):  # increased from 9 to 10
+# === Current Time ===
+time_label = tk.Label(root, text=datetime.now().strftime("🕒 %Y-%m-%d %H:%M:%S"),
+                      font=("Arial", int(FONT_SIZE * 0.8)), bg="#e6f2ff", fg="gray")
+time_label.grid(row=2, column=0, columnspan=5)
+
+# === Grid Layout ===
+for i in range(11):
     root.grid_rowconfigure(i, weight=1)
 for j in range(5):
     root.grid_columnconfigure(j, weight=1)
 
-# === Buttons Layout with Memory Row ===
+# === Button Layout ===
 buttons = [
     ["7", "8", "9", "/", "√"],
     ["4", "5", "6", "*", "sin"],
     ["1", "2", "3", "-", "cos"],
     ["0", ".", "=", "+", "tan"],
     ["C", "log", "%", "**", "⌫"],
-    ["M+", "M-", "MR", "MC", ""]
+    ["M+", "M-", "MR", "MC", "Copy"]
 ]
 
-# === Create Buttons ===
-for i, row in enumerate(buttons, start=2):
+for i, row in enumerate(buttons, start=3):
     for j, val in enumerate(row):
         if val:
             btn = tk.Button(root, text=val, font=BUTTON_FONT, bg="#ffffff", fg="#333333", relief=tk.RIDGE, bd=2)
             btn.grid(row=i, column=j, sticky="nsew", padx=3, pady=3)
             btn.bind("<Button-1>", click)
 
-# === History Button ===
-tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white",
-          relief=tk.RIDGE, bd=2, command=show_history).grid(row=8, column=0, columnspan=5, sticky="nsew", padx=10, pady=10)
+# === Bottom Buttons ===
+tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white", command=show_history)\
+    .grid(row=9, column=0, columnspan=3, sticky="nsew", padx=10, pady=10)
+
+tk.Button(root, text="Dark Mode", font=BUTTON_FONT, bg="#444444", fg="white", command=toggle_dark_mode)\
+    .grid(row=9, column=3, columnspan=2, sticky="nsew", padx=10, pady=10)
 
 # === Start App ===
 root.mainloop()
