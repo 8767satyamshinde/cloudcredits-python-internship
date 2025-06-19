@@ -1,48 +1,90 @@
-# ☁️ cloudcredits-python-internship
+# 📱 Advanced Scientific Calculator with Unit Converter - Cloudcredits Internship
 
-This repository contains Python projects completed during the **Cloudcredits Internship**.
+This is an advanced **GUI-based Scientific Calculator** built with Python's `tkinter` library. Designed during the **Cloudcredits Internship**, it includes powerful features like:
 
----
-
-## 📘 Project: Scientific Calculator 🧮
-
-A GUI-based scientific calculator built with Python and Tkinter.
-
----
-
-### ✅ Features
-
-- Basic Arithmetic Operations (`+`, `-`, `*`, `/`, `%`, `**`)
-- Scientific Functions:
-  - Square Root `√`
-  - Trigonometric: `sin`, `cos`, `tan`
-  - Logarithm: `log`
-- **Memory Operations**:
-  - `M+` ➜ Add to Memory
-  - `M-` ➜ Subtract from Memory
-  - `MR` ➜ Recall Memory
-  - `MC` ➜ Clear Memory
-- History Panel with Scrollable View
-- Save History as PDF
-- Responsive UI with Dynamic Font Scaling
-- Keyboard Input Support
+* 🧼 Scientific Calculations
+* 🧠 Memory Functions (M+, M-, MR, MC)
+* 📄 Calculation History (with PDF export)
+* 🌙 Dark Mode Toggle
+* 🔄 **Unit Converter** (Length, Weight, Temperature)
 
 ---
 
-### 📁 Folder: `01_simple_calculator`
+## 🔧 Features
 
-Contains the full calculator app:
-- `calculator.py` – Main Python code for the scientific calculator
-- `Calculator_History.pdf` – Example exported history
-- `logo.png` (optional) – Branding image
-- `calculator.ico` (optional) – App icon
+### ✅ Scientific Calculator
+
+* Basic: `+`, `-`, `×`, `÷`, `=`, `%`, `C`, `Backspace`
+* Advanced: `√`, `sin`, `cos`, `tan`, `log`, `**` (power)
+* Memory Functions: `M+`, `M-`, `MR`, `MC`
+* Copy result to clipboard
+* Keyboard input support
+
+### 🧱 Unit Converter
+
+Accessible via **Unit Converter** button:
+
+* 🔹 **Length**
+
+  * `m to km`, `km to m`
+  * `cm to m`, `m to cm`
+* 🔹 **Weight**
+
+  * `kg to g`, `g to kg`
+  * `pound to kg`, `kg to pound`
+* 🔹 **Temperature**
+
+  * `Celsius to Fahrenheit`
+  * `Fahrenheit to Celsius`
+
+### 🌙 Dark Mode
+
+Toggle UI theme between light and dark mode.
+
+### ⏱️ Real-time Clock
+
+Displays current date and time.
 
 ---
 
-### ▶️ How to Run
+## 💻 How to Run
 
-Make sure Python and the required packages are installed:
+1. Clone or download the project folder.
+2. Make sure you have Python 3.10+ installed.
+3. Run the calculator:
 
-```bash
-pip install reportlab
-python calculator.py
+   ```bash
+   python advanced_calculator.py
+   ```
+
+---
+
+## 📁 File Structure
+
+```
+cloudcredits-python-internship/
+│
+├── advanced_calculator.py      # Main application
+├── README.md                   # This file
+└── logo.png (optional)         # Logo image (if available)
+```
+
+---
+
+## 🚀 Upcoming Enhancements (Planned)
+
+> These will be added in the next update:
+
+* 💱 Currency Converter (Live rates via API)
+* 📍 Data Converter (KB ⇌ MB ⇌ GB)
+* 🎧 Voice Assistant for input/output
+* 🔀 Auto-updating Digital Clock
+* 📆 .EXE Packaging (via PyInstaller or cx\_Freeze)
+
+---
+
+## 📌 Author
+
+👨‍💻 **Satyam Shinde**
+🛠️ Cloudcredits Python Intern
+📧 [shindesatyam72@gmail.com](mailto:shindesatyam72@gmail.com)
