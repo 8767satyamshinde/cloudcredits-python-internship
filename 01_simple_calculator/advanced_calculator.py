@@ -46,16 +46,16 @@ def click(event):
         elif text == "C":
             entry.delete(0, tk.END)
 
-        elif text == "\u232b":
+        elif text == "⌫":
             entry.delete(len(current) - 1, tk.END)
 
-        elif text in ["\u221a", "sin", "cos", "tan", "log"]:
+        elif text in ["√", "sin", "cos", "tan", "log"]:
             if current == "":
                 entry.insert(tk.END, "Enter number first")
             else:
                 value = float(current)
                 entry.delete(0, tk.END)
-                if text == "\u221a":
+                if text == "√":
                     result = sqrt(value)
                 elif text == "sin":
                     result = sin(radians(value))
@@ -107,7 +107,7 @@ def open_unit_converter():
     conv_win = Toplevel(root)
     conv_win.title("Unit Converter")
     conv_win.geometry("400x400")
-    
+
     conversions = {
         "Length": {"m to km": 0.001, "km to m": 1000, "cm to m": 0.01, "m to cm": 100},
         "Weight": {"kg to g": 1000, "g to kg": 0.001, "pound to kg": 0.4536, "kg to pound": 2.2046},
@@ -154,7 +154,27 @@ def open_unit_converter():
     result_lbl = tk.Label(conv_win, text="")
     result_lbl.pack(pady=5)
 
-# === Other Functions ===
+# === Show History ===
+def show_history():
+    if not history:
+        messagebox.showinfo("History", "No history available.")
+        return
+
+    hist_win = Toplevel(root)
+    hist_win.title("Calculation History")
+    hist_win.geometry("400x400")
+
+    scroll = Scrollbar(hist_win)
+    scroll.pack(side=tk.RIGHT, fill=tk.Y)
+
+    text_area = tk.Text(hist_win, yscrollcommand=scroll.set)
+    text_area.pack(expand=True, fill=tk.BOTH)
+    scroll.config(command=text_area.yview)
+
+    for h in history:
+        text_area.insert(tk.END, h + "\n")
+
+# === Dark Mode ===
 def toggle_dark_mode():
     global dark_mode
     dark_mode = not dark_mode
@@ -166,10 +186,7 @@ def toggle_dark_mode():
         if isinstance(child, tk.Button):
             child.config(bg="#333333" if dark_mode else "#ffffff", fg=fg_color)
 
-def show_history():
-    # (Same as your existing history function)
-    pass
-
+# === Keyboard Support ===
 def on_key(event):
     key = event.char
     if key in '0123456789.+-*/%':
@@ -181,7 +198,7 @@ def on_key(event):
 
 root.bind("<Key>", on_key)
 
-# === Entry Widget ===
+# === Entry ===
 entry = tk.Entry(root, font=ENTRY_FONT, bd=5, relief=tk.RIDGE, justify=tk.RIGHT, bg="#e6f2ff", fg="#333333")
 entry.grid(row=1, column=0, columnspan=5, sticky="nsew", padx=10, pady=10, ipady=10)
 entry.focus_set()
@@ -190,18 +207,18 @@ time_label = tk.Label(root, text=datetime.now().strftime("\U0001F552 %Y-%m-%d %H
                       font=("Arial", int(FONT_SIZE * 0.8)), bg="#e6f2ff", fg="gray")
 time_label.grid(row=2, column=0, columnspan=5)
 
-# === Grid Layout ===
+# === Layout ===
 for i in range(11):
     root.grid_rowconfigure(i, weight=1)
 for j in range(5):
     root.grid_columnconfigure(j, weight=1)
 
 buttons = [
-    ["7", "8", "9", "/", "\u221a"],
+    ["7", "8", "9", "/", "√"],
     ["4", "5", "6", "*", "sin"],
     ["1", "2", "3", "-", "cos"],
     ["0", ".", "=", "+", "tan"],
-    ["C", "log", "%", "**", "\u232b"],
+    ["C", "log", "%", "**", "⌫"],
     ["M+", "M-", "MR", "MC", "Copy"]
 ]
 
