@@ -1,13 +1,22 @@
 import tkinter as tk
-from tkinter import messagebox, Toplevel, PhotoImage, filedialog, Scrollbar, StringVar, OptionMenu
+from tkinter import messagebox, Toplevel, Scrollbar, StringVar
 from math import sqrt, sin, cos, tan, log10, radians
-from reportlab.pdfgen import canvas
 from datetime import datetime
 import os
-import webbrowser
 
-# === Store History & Memory ===
-history = []
+# === History Management ===
+HISTORY_FILE = "history.txt"
+
+if os.path.exists(HISTORY_FILE):
+    with open(HISTORY_FILE, "r") as f:
+        history = [line.strip() for line in f.readlines()]
+else:
+    history = []
+
+def save_history_entry(entry):
+    with open(HISTORY_FILE, "a") as f:
+        f.write(entry + "\n")
+
 memory_value = 0
 dark_mode = False
 
@@ -22,7 +31,6 @@ app_height = int(screen_height * 0.8)
 root.geometry(f"{app_width}x{app_height}")
 root.minsize(500, 600)
 
-# === Fonts ===
 FONT_SIZE = int(app_width * 0.025)
 BUTTON_FONT = ("Arial", FONT_SIZE)
 ENTRY_FONT = ("Arial", FONT_SIZE + 4)
@@ -38,10 +46,12 @@ def click(event):
             expression = current.replace("%", "/100")
             result = eval(expression)
             result = round(result, 4)
-            if not history or history[-1] != f"{current} = {result}":
-                history.append(f"{current} = {result}")
             entry.delete(0, tk.END)
             entry.insert(tk.END, result)
+            full_expr = f"{current} = {result}"
+            if not history or history[-1] != full_expr:
+                history.append(full_expr)
+                save_history_entry(full_expr)
 
         elif text == "C":
             entry.delete(0, tk.END)
@@ -70,7 +80,9 @@ def click(event):
                         entry.insert(tk.END, "Invalid (log)")
                         return
                 result = round(result, 4)
-                history.append(f"{text}({value}) = {result}")
+                full_expr = f"{text}({value}) = {result}"
+                history.append(full_expr)
+                save_history_entry(full_expr)
                 entry.insert(tk.END, result)
 
         elif text == "M+":
@@ -156,10 +168,6 @@ def open_unit_converter():
 
 # === Show History ===
 def show_history():
-    if not history:
-        messagebox.showinfo("History", "No history available.")
-        return
-
     hist_win = Toplevel(root)
     hist_win.title("Calculation History")
     hist_win.geometry("400x400")
@@ -173,6 +181,16 @@ def show_history():
 
     for h in history:
         text_area.insert(tk.END, h + "\n")
+
+    def clear_hist():
+        global history
+        history.clear()
+        with open(HISTORY_FILE, "w") as f:
+            f.write("")
+        text_area.delete(1.0, tk.END)
+        messagebox.showinfo("History", "History cleared.")
+
+    tk.Button(hist_win, text="Clear History", command=clear_hist).pack(pady=5)
 
 # === Dark Mode ===
 def toggle_dark_mode():
@@ -227,7 +245,6 @@ for i, row in enumerate(buttons, start=3):
         btn = tk.Button(root, text=val, font=BUTTON_FONT, bg="#ffffff", fg="#333333", relief=tk.RIDGE, bd=2)
         btn.grid(row=i, column=j, sticky="nsew", padx=3, pady=3)
         btn.bind("<Button-1>", click)
-
 # === Bottom Buttons ===
 tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white", command=show_history).grid(row=9, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
 tk.Button(root, text="Dark Mode", font=BUTTON_FONT, bg="#444444", fg="white", command=toggle_dark_mode).grid(row=9, column=2, columnspan=2, sticky="nsew", padx=10, pady=10)
