@@ -1,90 +1,82 @@
-# 📱 Advanced Scientific Calculator with Unit Converter - Cloudcredits Internship
-
-This is an advanced **GUI-based Scientific Calculator** built with Python's `tkinter` library. Designed during the **Cloudcredits Internship**, it includes powerful features like:
-
-* 🧼 Scientific Calculations
-* 🧠 Memory Functions (M+, M-, MR, MC)
-* 📄 Calculation History (with PDF export)
-* 🌙 Dark Mode Toggle
-* 🔄 **Unit Converter** (Length, Weight, Temperature)
+Sure, Satyam! Here's a **`README.md` file** you can include in your calculator project folder. This file explains what your project is, how to run it, and how the history saving feature works.
 
 ---
 
-## 🔧 Features
+## 📄 `README.md` (Place this in the same folder as your `.py` file)
 
-### ✅ Scientific Calculator
+````markdown
+# 🔢 Scientific Calculator - Cloudcredits Internship Project
 
-* Basic: `+`, `-`, `×`, `÷`, `=`, `%`, `C`, `Backspace`
-* Advanced: `√`, `sin`, `cos`, `tan`, `log`, `**` (power)
-* Memory Functions: `M+`, `M-`, `MR`, `MC`
-* Copy result to clipboard
-* Keyboard input support
+This is a **Tkinter-based Scientific Calculator** developed as part of the **Cloudcredits Internship** by Satyam Shinde.
 
-### 🧱 Unit Converter
-
-Accessible via **Unit Converter** button:
-
-* 🔹 **Length**
-
-  * `m to km`, `km to m`
-  * `cm to m`, `m to cm`
-* 🔹 **Weight**
-
-  * `kg to g`, `g to kg`
-  * `pound to kg`, `kg to pound`
-* 🔹 **Temperature**
-
-  * `Celsius to Fahrenheit`
-  * `Fahrenheit to Celsius`
-
-### 🌙 Dark Mode
-
-Toggle UI theme between light and dark mode.
-
-### ⏱️ Real-time Clock
-
-Displays current date and time.
+It includes support for:
+- Basic arithmetic operations
+- Scientific functions (√, sin, cos, tan, log)
+- Memory operations (M+, M-, MR, MC)
+- Trigonometric angle handling (in degrees)
+- Unit converter (Length, Weight, Temperature)
+- Dark mode toggle
+- Real-time clock display
+- Calculation history saved **across sessions** using a `.txt` file
 
 ---
 
-## 💻 How to Run
+## 📦 Features
 
-1. Clone or download the project folder.
-2. Make sure you have Python 3.10+ installed.
-3. Run the calculator:
+- **User-Friendly GUI:** Built with Tkinter, supporting keyboard input and mouse clicks.
+- **Memory Functions:** Save and retrieve numbers using M+/M-/MR/MC.
+- **Copy Function:** Easily copy result to clipboard.
+- **History Log:** 
+  - Saved in `history.txt` file
+  - Displayed using "Show History"
+  - Automatically restored when reopening the app
+  - Clear history button available
+- **Dark Mode:** Switch between light and dark themes.
+- **Unit Converter:** Convert between various units directly within the app.
 
+---
+
+## ▶️ How to Run
+
+1. Install Python (version 3.x recommended).
+2. Make sure `tkinter` is available (comes by default with Python on most systems).
+3. Save the main calculator script as `calculator.py`.
+4. Open terminal or command prompt.
+5. Navigate to the folder where `calculator.py` is saved.
+6. Run the app with:
    ```bash
-   python advanced_calculator.py
-   ```
+   python calculator.py
+````
 
 ---
 
-## 📁 File Structure
+## 🧠 History Persistence
+
+* All calculations are stored in `history.txt`.
+* This file is automatically created/updated every time you perform a new calculation.
+* When you relaunch the app, it loads the existing history so you can continue where you left off.
+* You can clear the history anytime using the **"Clear History"** button in the History window.
+
+---
+
+## 📁 Project Structure
 
 ```
-cloudcredits-python-internship/
+project-folder/
 │
-├── advanced_calculator.py      # Main application
-├── README.md                   # This file
-└── logo.png (optional)         # Logo image (if available)
+├── calculator.py        # Main Python file
+├── history.txt          # Stores all past calculations (auto-created)
+└── README.md            # This file (project description)
 ```
 
 ---
 
-## 🚀 Upcoming Enhancements (Planned)
+## 👨‍💻 Developer
 
-> These will be added in the next update:
+**Satyam Shinde**
+M.Tech Computer Engineering (AI)
+Cloudcredits Internship Project
 
-* 💱 Currency Converter (Live rates via API)
-* 📍 Data Converter (KB ⇌ MB ⇌ GB)
-* 🎧 Voice Assistant for input/output
-* 🔀 Auto-updating Digital Clock
-* 📆 .EXE Packaging (via PyInstaller or cx\_Freeze)
+```
 
----
 
-## 📌 Author
-
-👨‍💻 **Satyam Shinde**
-🛠️ Cloudcredits Python Intern
-📧 [shindesatyam72@gmail.com](mailto:shindesatyam72@gmail.com)
