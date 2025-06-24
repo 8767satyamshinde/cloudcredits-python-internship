@@ -1,82 +1,73 @@
-Sure, Satyam! Here's a **`README.md` file** you can include in your calculator project folder. This file explains what your project is, how to run it, and how the history saving feature works.
+# Scientific Calculator - Cloudcredits Internship
+
+A powerful **Tkinter-based GUI scientific calculator** developed as part of the **Cloudcredits internship** program. This calculator supports a wide range of functionalities including arithmetic operations, scientific functions, memory storage, dark mode, and more.
 
 ---
 
-## 📄 `README.md` (Place this in the same folder as your `.py` file)
+## 🧮 Features
 
-````markdown
-# 🔢 Scientific Calculator - Cloudcredits Internship Project
+### ✅ Basic Operations
+- Addition, Subtraction, Multiplication, Division
+- Percentage (`%`), Power (`**`), Square root (`√`)
 
-This is a **Tkinter-based Scientific Calculator** developed as part of the **Cloudcredits Internship** by Satyam Shinde.
+### ✅ Scientific Functions
+- Trigonometric: `sin`, `cos`, `tan` (in degrees)
+- Logarithmic: `log` (base 10)
+- **Factorial**: `x!` (NEW)
+- Keyboard input supported for numbers and symbols
 
-It includes support for:
-- Basic arithmetic operations
-- Scientific functions (√, sin, cos, tan, log)
-- Memory operations (M+, M-, MR, MC)
-- Trigonometric angle handling (in degrees)
-- Unit converter (Length, Weight, Temperature)
-- Dark mode toggle
-- Real-time clock display
-- Calculation history saved **across sessions** using a `.txt` file
+### ✅ Memory Functions
+- `M+` Add to memory
+- `M-` Subtract from memory
+- `MR` Recall memory
+- `MC` Clear memory
 
----
-
-## 📦 Features
-
-- **User-Friendly GUI:** Built with Tkinter, supporting keyboard input and mouse clicks.
-- **Memory Functions:** Save and retrieve numbers using M+/M-/MR/MC.
-- **Copy Function:** Easily copy result to clipboard.
-- **History Log:** 
-  - Saved in `history.txt` file
-  - Displayed using "Show History"
-  - Automatically restored when reopening the app
-  - Clear history button available
-- **Dark Mode:** Switch between light and dark themes.
-- **Unit Converter:** Convert between various units directly within the app.
+### ✅ Additional Features
+- **Dark Mode Toggle**
+- **Copy Result** to Clipboard
+- **Calculation History** with Save & View
+- **Unit Converter** (Length, Weight, Temperature)
+- **Live Clock** ⏰ in interface
 
 ---
 
-## ▶️ How to Run
+## 🚀 How to Run
 
-1. Install Python (version 3.x recommended).
-2. Make sure `tkinter` is available (comes by default with Python on most systems).
-3. Save the main calculator script as `calculator.py`.
-4. Open terminal or command prompt.
-5. Navigate to the folder where `calculator.py` is saved.
-6. Run the app with:
+1. Make sure you have **Python 3** installed.
+2. Clone or download this repository.
+3. Run the calculator:
    ```bash
    python calculator.py
 ````
 
----
-
-## 🧠 History Persistence
-
-* All calculations are stored in `history.txt`.
-* This file is automatically created/updated every time you perform a new calculation.
-* When you relaunch the app, it loads the existing history so you can continue where you left off.
-* You can clear the history anytime using the **"Clear History"** button in the History window.
+> All history is saved automatically to `history.txt` in the current folder.
 
 ---
 
-## 📁 Project Structure
+## 📁 File Structure
 
 ```
-project-folder/
-│
-├── calculator.py        # Main Python file
-├── history.txt          # Stores all past calculations (auto-created)
-└── README.md            # This file (project description)
+calculator.py         # Main application script
+history.txt           # Saved calculation history
+README.md             # Project overview and instructions
 ```
 
 ---
 
-## 👨‍💻 Developer
+## 🛠️ Requirements
 
-**Satyam Shinde**
-M.Tech Computer Engineering (AI)
-Cloudcredits Internship Project
+* `tkinter` (built-in with Python)
+* `math` and `datetime` (standard Python libraries)
 
-```
+---
+
+
+
+## 🎓 Developed For
+
+**Cloudcredits Internship Program**
+By: *Satyam Shinde*
+
+---
 
 

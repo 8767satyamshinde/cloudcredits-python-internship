@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, Toplevel, Scrollbar, StringVar
-from math import sqrt, sin, cos, tan, log10, radians
+from math import sqrt, sin, cos, tan, log10, radians, factorial
 from datetime import datetime
 import os
 
@@ -84,6 +84,22 @@ def click(event):
                 history.append(full_expr)
                 save_history_entry(full_expr)
                 entry.insert(tk.END, result)
+
+        elif text == "x!":
+            if current == "":
+                entry.insert(tk.END, "Enter number first")
+            else:
+                value = float(current)
+                if value < 0 or not value.is_integer():
+                    entry.delete(0, tk.END)
+                    entry.insert(tk.END, "Invalid (x!)")
+                else:
+                    result = factorial(int(value))
+                    entry.delete(0, tk.END)
+                    full_expr = f"{int(value)}! = {result}"
+                    history.append(full_expr)
+                    save_history_entry(full_expr)
+                    entry.insert(tk.END, result)
 
         elif text == "M+":
             if current != "":
@@ -237,7 +253,8 @@ buttons = [
     ["1", "2", "3", "-", "cos"],
     ["0", ".", "=", "+", "tan"],
     ["C", "log", "%", "**", "⌫"],
-    ["M+", "M-", "MR", "MC", "Copy"]
+    ["M+", "M-", "MR", "MC", "x!"],
+    ["Copy"]
 ]
 
 for i, row in enumerate(buttons, start=3):
@@ -245,6 +262,7 @@ for i, row in enumerate(buttons, start=3):
         btn = tk.Button(root, text=val, font=BUTTON_FONT, bg="#ffffff", fg="#333333", relief=tk.RIDGE, bd=2)
         btn.grid(row=i, column=j, sticky="nsew", padx=3, pady=3)
         btn.bind("<Button-1>", click)
+
 # === Bottom Buttons ===
 tk.Button(root, text="Show History", font=BUTTON_FONT, bg="#2196F3", fg="white", command=show_history).grid(row=9, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
 tk.Button(root, text="Dark Mode", font=BUTTON_FONT, bg="#444444", fg="white", command=toggle_dark_mode).grid(row=9, column=2, columnspan=2, sticky="nsew", padx=10, pady=10)
