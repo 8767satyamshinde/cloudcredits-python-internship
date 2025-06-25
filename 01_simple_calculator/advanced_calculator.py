@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, Toplevel, Scrollbar, StringVar
+from tkinter import messagebox, Toplevel, Scrollbar, StringVar, filedialog
 from math import sqrt, sin, cos, tan, log10, radians, factorial
 from datetime import datetime
 import os
@@ -182,11 +182,11 @@ def open_unit_converter():
     result_lbl = tk.Label(conv_win, text="")
     result_lbl.pack(pady=5)
 
-# === Show History ===
+# === Show History with Save, Save As, Clear ===
 def show_history():
     hist_win = Toplevel(root)
     hist_win.title("Calculation History")
-    hist_win.geometry("400x400")
+    hist_win.geometry("500x500")
 
     scroll = Scrollbar(hist_win)
     scroll.pack(side=tk.RIGHT, fill=tk.Y)
@@ -206,7 +206,24 @@ def show_history():
         text_area.delete(1.0, tk.END)
         messagebox.showinfo("History", "History cleared.")
 
-    tk.Button(hist_win, text="Clear History", command=clear_hist).pack(pady=5)
+    def save_hist():
+        with open(HISTORY_FILE, "w") as f:
+            f.write(text_area.get("1.0", tk.END).strip())
+        messagebox.showinfo("Saved", f"History saved to {HISTORY_FILE}")
+
+    def save_as_hist():
+        file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
+        if file_path:
+            with open(file_path, "w") as f:
+                f.write(text_area.get("1.0", tk.END).strip())
+            messagebox.showinfo("Saved", f"History saved as {file_path}")
+
+    btn_frame = tk.Frame(hist_win)
+    btn_frame.pack(pady=10)
+
+    tk.Button(btn_frame, text="Clear History", command=clear_hist, bg="#f44336", fg="white", padx=10).grid(row=0, column=0, padx=5)
+    tk.Button(btn_frame, text="Save History", command=save_hist, bg="#4CAF50", fg="white", padx=10).grid(row=0, column=1, padx=5)
+    tk.Button(btn_frame, text="Save As...", command=save_as_hist, bg="#2196F3", fg="white", padx=10).grid(row=0, column=2, padx=5)
 
 # === Dark Mode ===
 def toggle_dark_mode():
