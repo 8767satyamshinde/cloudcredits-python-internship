@@ -101,10 +101,5 @@ Here are the next suggested project ideas based on your skillset and internship 
 ---
 ````
 
----
-
-### ✅ What’s Next?
-
-🔜 **Start your new project today: To-Do List App**
 
 
