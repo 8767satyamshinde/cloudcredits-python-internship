@@ -1,6 +1,3 @@
-Perfect, Satyam! You already completed both the **Calculator Desktop App (Tkinter)** and **Calculator Android App (Kivy)** for your **CloudCredits Internship**.
-
-Let’s finalize the **`README.md` file** with a professional and well-organized format — covering **both projects** and highlighting them clearly.
 
 ---
 
