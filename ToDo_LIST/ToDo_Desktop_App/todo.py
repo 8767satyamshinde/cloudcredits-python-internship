@@ -6,9 +6,9 @@ import os
 
 TASK_FILE = "tasks.json"
 tasks = []
+dark_mode = False
 
 # --- Data Functions ---
-
 def save_tasks():
     with open(TASK_FILE, "w") as file:
         json.dump(tasks, file, indent=4)
@@ -22,21 +22,28 @@ def load_tasks():
         tasks = []
 
 # --- GUI Functions ---
-
-def refresh_task_list():
+def refresh_task_list(filtered=None):
     task_listbox.delete(0, tk.END)
-    for i, task in enumerate(tasks):
+    data = filtered if filtered is not None else tasks
+    for i, task in enumerate(data):
         status = "✔️" if task["status"] == "Done" else "⏳"
-        display = f"{i+1}. {status} {task['task']} ({task['created']})"
+        priority = f"[{task.get('priority', 'Medium')}]"
+        due = f"(Due: {task.get('due', 'N/A')})"
+        display = f"{i+1}. {status} {priority} {task['task']} {due}"
         task_listbox.insert(tk.END, display)
+    update_analytics()
 
 def add_task():
     task_text = task_entry.get().strip()
     if task_text:
+        due_date = simpledialog.askstring("Due Date", "Enter due date (YYYY-MM-DD):")
+        priority = simpledialog.askstring("Priority", "Enter priority (Low/Medium/High):")
         new_task = {
             "task": task_text,
             "status": "Pending",
-            "created": datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            "created": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "due": due_date if due_date else "N/A",
+            "priority": priority if priority else "Medium"
         }
         tasks.append(new_task)
         save_tasks()
@@ -69,6 +76,23 @@ def mark_done():
     else:
         messagebox.showwarning("Select Task", "No task selected.")
 
+def edit_task():
+    selected = task_listbox.curselection()
+    if selected:
+        index = selected[0]
+        current = tasks[index]
+        new_text = simpledialog.askstring("Edit Task", "Edit task name:", initialvalue=current["task"])
+        new_due = simpledialog.askstring("Edit Due Date", "Edit due date (YYYY-MM-DD):", initialvalue=current.get("due", ""))
+        new_priority = simpledialog.askstring("Edit Priority", "Edit priority (Low/Medium/High):", initialvalue=current.get("priority", "Medium"))
+        if new_text:
+            current["task"] = new_text
+            current["due"] = new_due if new_due else current.get("due", "")
+            current["priority"] = new_priority if new_priority else current.get("priority", "Medium")
+            save_tasks()
+            refresh_task_list()
+    else:
+        messagebox.showwarning("Select Task", "No task selected.")
+
 def clear_all():
     confirm = messagebox.askyesno("Confirm", "Delete all tasks?")
     if confirm:
@@ -76,33 +100,70 @@ def clear_all():
         save_tasks()
         refresh_task_list()
 
+def search_tasks():
+    query = search_entry.get().strip().lower()
+    if query:
+        filtered = [task for task in tasks if query in task['task'].lower()]
+        refresh_task_list(filtered)
+    else:
+        refresh_task_list()
+
+def toggle_theme():
+    global dark_mode
+    dark_mode = not dark_mode
+    bg = "#2e2e2e" if dark_mode else "#ffffff"
+    fg = "#ffffff" if dark_mode else "#000000"
+    
+    root.config(bg=bg)
+    for widget in root.winfo_children():
+        try:
+            widget.config(bg=bg, fg=fg)
+        except:
+            pass
+    refresh_task_list()
+
+def update_analytics():
+    total = len(tasks)
+    done = len([t for t in tasks if t["status"] == "Done"])
+    pending = total - done
+    analytics_label.config(text=f"📊 Total: {total} | ✔️ Done: {done} | ⏳ Pending: {pending}")
+
 # --- GUI Setup ---
-
 root = tk.Tk()
-root.title("📝 Enhanced To-Do List")
-root.geometry("500x400")
+root.title("📝 Advanced To-Do List App")
+root.geometry("600x550")
+root.config(bg="#ffffff")
 
+# Entry
 task_entry = tk.Entry(root, width=40)
-task_entry.pack(pady=10)
+task_entry.pack(pady=5)
 
-add_btn = tk.Button(root, text="Add Task", command=add_task)
-add_btn.pack()
+# Buttons
+tk.Button(root, text="Add Task", command=add_task).pack()
+tk.Button(root, text="Edit Task", command=edit_task).pack()
+tk.Button(root, text="Mark as Done", command=mark_done).pack()
+tk.Button(root, text="Delete Task", command=delete_task).pack()
+tk.Button(root, text="Clear All Tasks", command=clear_all).pack()
 
-task_listbox = tk.Listbox(root, width=70, height=12)
+# Search Bar
+search_entry = tk.Entry(root, width=30)
+search_entry.pack(pady=5)
+search_entry.insert(0, "Search tasks...")
+
+tk.Button(root, text="Search", command=search_tasks).pack(pady=2)
+
+# Dark Mode Toggle
+tk.Button(root, text="Toggle Dark Mode", command=toggle_theme).pack(pady=5)
+
+# Task List
+task_listbox = tk.Listbox(root, width=80, height=15)
 task_listbox.pack(pady=10)
 
-done_btn = tk.Button(root, text="Mark as Done", command=mark_done)
-done_btn.pack(pady=5)
+# Analytics Label
+analytics_label = tk.Label(root, text="📊 Analytics will show here", font=("Arial", 10), bg="#ffffff")
+analytics_label.pack(pady=10)
 
-del_btn = tk.Button(root, text="Delete Task", command=delete_task)
-del_btn.pack(pady=5)
-
-clear_btn = tk.Button(root, text="Clear All Tasks", command=clear_all)
-clear_btn.pack(pady=5)
-
-# --- Load & Start ---
-
+# Load tasks and start GUI
 load_tasks()
 refresh_task_list()
-
 root.mainloop()
