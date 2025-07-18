@@ -4,12 +4,10 @@ import json
 import datetime
 import os
 
-# ---------- File for saving tasks ----------
 TASK_FILE = "tasks.json"
 tasks = []
 dark_mode = False
 
-# ---------- Data Handling ----------
 def save_tasks():
     with open(TASK_FILE, "w") as file:
         json.dump(tasks, file, indent=4)
@@ -22,7 +20,6 @@ def load_tasks():
     else:
         tasks = []
 
-# ---------- Task Operations ----------
 def refresh_task_list(filtered=None):
     task_listbox.delete(0, tk.END)
     data = filtered if filtered is not None else tasks
@@ -114,7 +111,6 @@ def toggle_theme():
     dark_mode = not dark_mode
     bg = "#2e2e2e" if dark_mode else "#ffffff"
     fg = "#ffffff" if dark_mode else "#000000"
-
     root.config(bg=bg)
     for widget in root.winfo_children():
         try:
@@ -129,81 +125,75 @@ def update_analytics():
     pending = total - done
     analytics_label.config(text=f"📊 Total: {total} | ✔️ Done: {done} | ⏳ Pending: {pending}")
 
-# ---------- New Feature: Task Note Editor ----------
 def open_text_editor():
     editor = tk.Toplevel(root)
     editor.title("📝 Task Note Editor")
     editor.geometry("400x400")
-
     text_area = tk.Text(editor, wrap="word")
     text_area.pack(expand=True, fill="both")
-
     def save_note():
         content = text_area.get("1.0", tk.END).strip()
         with open("task_note.txt", "w") as f:
             f.write(content)
         messagebox.showinfo("Saved", "Task note saved to task_note.txt")
-
     tk.Button(editor, text="Save Note", command=save_note).pack(pady=5)
 
-# ---------- New Feature: Sketchpad ----------
 def open_paint():
     paint = tk.Toplevel(root)
     paint.title("🎨 SketchPad")
     paint.geometry("400x400")
-
     canvas = tk.Canvas(paint, bg="white")
     canvas.pack(fill="both", expand=True)
-
     def paint_draw(event):
         x, y = event.x, event.y
         canvas.create_oval(x-2, y-2, x+2, y+2, fill="black", outline="black")
-
     canvas.bind("<B1-Motion>", paint_draw)
-
     def clear_canvas():
         canvas.delete("all")
-
     tk.Button(paint, text="Clear Canvas", command=clear_canvas).pack(pady=5)
 
-# ---------- GUI Setup ----------
+# ---------------- GUI Layout ----------------
 root = tk.Tk()
 root.title("📝 Advanced To-Do List App")
-root.geometry("600x600")
+root.geometry("620x680")
 root.config(bg="#ffffff")
 
-# Entry Field
-task_entry = tk.Entry(root, width=40)
+# --- Top Input ---
+task_entry = tk.Entry(root, width=50)
 task_entry.pack(pady=5)
 
-# Buttons for task actions
-tk.Button(root, text="Add Task", command=add_task).pack()
-tk.Button(root, text="Edit Task", command=edit_task).pack()
-tk.Button(root, text="Mark as Done", command=mark_done).pack()
-tk.Button(root, text="Delete Task", command=delete_task).pack()
-tk.Button(root, text="Clear All Tasks", command=clear_all).pack()
-
-# Search Field
 search_entry = tk.Entry(root, width=30)
-search_entry.pack(pady=5)
+search_entry.pack(pady=3)
 search_entry.insert(0, "Search tasks...")
 
-tk.Button(root, text="Search", command=search_tasks).pack(pady=2)
-tk.Button(root, text="Toggle Dark Mode", command=toggle_theme).pack(pady=5)
+# --- Button Grid Frame ---
+btn_frame = tk.Frame(root, bg="#ffffff")
+btn_frame.pack(pady=8)
 
-# New Advanced Feature Buttons
-tk.Button(root, text="Open Task Note Editor 📝", command=open_text_editor).pack(pady=2)
-tk.Button(root, text="Open SketchPad 🎨", command=open_paint).pack(pady=2)
+btns = [
+    ("Add Task", add_task),
+    ("Edit Task", edit_task),
+    ("Mark as Done", mark_done),
+    ("Delete Task", delete_task),
+    ("Clear All", clear_all),
+    ("Search", search_tasks),
+    ("Toggle Dark Mode", toggle_theme),
+    ("Task Note 📝", open_text_editor),
+    ("SketchPad 🎨", open_paint),
+]
 
-# Task List
-task_listbox = tk.Listbox(root, width=80, height=15)
+for i, (text, cmd) in enumerate(btns):
+    tk.Button(btn_frame, text=text, command=cmd, width=20).grid(row=i//3, column=i%3, padx=5, pady=3)
+
+# --- Task List ---
+task_listbox = tk.Listbox(root, width=85, height=15)
 task_listbox.pack(pady=10)
 
-# Analytics
+# --- Analytics ---
 analytics_label = tk.Label(root, text="📊 Analytics will show here", font=("Arial", 10), bg="#ffffff")
 analytics_label.pack(pady=10)
 
-# Load and Run App
+# --- Load & Run ---
 load_tasks()
 refresh_task_list()
 root.mainloop()
