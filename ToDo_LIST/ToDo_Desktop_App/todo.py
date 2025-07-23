@@ -57,7 +57,6 @@ def delete_task():
     else:
         messagebox.showwarning("No Selection", "Please select a task to delete.")
 
-# ✅ Modified to toggle Done ↔ Pending
 def mark_done():
     selected = task_listbox.curselection()
     if selected:
@@ -124,18 +123,44 @@ def update_analytics():
     pending = total - done
     analytics_label.config(text=f"📊 Total: {total} | ✔️ Done: {done} | ⏳ Pending: {pending}")
 
+# 🔥 UPDATED NOTES FEATURE
 def open_text_editor():
     editor = tk.Toplevel(root)
-    editor.title("Task Notes")
-    editor.geometry("400x400")
-    text_area = tk.Text(editor, wrap="word")
-    text_area.pack(expand=True, fill="both")
+    editor.title("📝 Task Notes")
+    editor.geometry("450x450")
+    
+    text_area = tk.Text(editor, wrap="word", font=("Arial", 11))
+    text_area.pack(expand=True, fill="both", padx=5, pady=5)
+
+    # Load existing note
+    if os.path.exists("task_note.txt"):
+        with open("task_note.txt", "r") as f:
+            content = f.read()
+            text_area.insert(tk.END, content)
+
     def save_note():
         content = text_area.get("1.0", tk.END).strip()
         with open("task_note.txt", "w") as f:
             f.write(content)
         messagebox.showinfo("Saved", "Notes saved to task_note.txt")
-    tk.Button(editor, text="💾 Save Note", command=save_note).pack(pady=5)
+
+    def load_note():
+        if os.path.exists("task_note.txt"):
+            with open("task_note.txt", "r") as f:
+                text_area.delete("1.0", tk.END)
+                text_area.insert(tk.END, f.read())
+            messagebox.showinfo("Loaded", "Note loaded from task_note.txt")
+        else:
+            messagebox.showwarning("Not Found", "No saved notes found.")
+
+    def clear_note():
+        text_area.delete("1.0", tk.END)
+
+    btn_frame = tk.Frame(editor)
+    btn_frame.pack(pady=5)
+    tk.Button(btn_frame, text="💾 Save Note", command=save_note, width=12).grid(row=0, column=0, padx=5)
+    tk.Button(btn_frame, text="🧾 Load Note", command=load_note, width=12).grid(row=0, column=1, padx=5)
+    tk.Button(btn_frame, text="🧹 Clear Note", command=clear_note, width=12).grid(row=0, column=2, padx=5)
 
 def open_paint():
     paint = tk.Toplevel(root)
