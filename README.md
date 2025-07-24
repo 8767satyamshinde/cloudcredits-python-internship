@@ -1,37 +1,55 @@
+# 📝 Advanced To-Do List Desktop App using Tkinter
 
+### 📅 Internship: CloudCredits – Daily Task  
+### 📌 Date: 24th July 2025  
+### 👨‍💻 Author: Satyam Shinde  
 
-# Content for the README.md
-readme_content = """
-# 📝 Advanced To-Do List App (Tkinter GUI Project)
+---
 
-A Python-based desktop application that helps you manage your daily tasks with additional creative tools like a **Task Note Editor** and a **SketchPad**. Built using `Tkinter`, this app supports modern features like dark mode, priority tracking, due dates, and persistent local storage.
+## 📖 Description
 
-## 🎯 Features
+This is a **Tkinter-based Advanced To-Do List application** that allows users to efficiently manage daily tasks. The app includes advanced features like task tracking, priority and due dates, theme toggle, notes editor, paint sketchpad, and analytics. It's a desktop GUI project built using Python.
 
-- ✅ **Add/Edit/Delete Tasks**
-- ⏳ **Mark as Done** with real-time status update
-- 🔍 **Search Tasks** with live filtering
-- 🗓️ **Due Date & Priority** assignment
-- 🌙 **Toggle Dark Mode**
-- 📊 **Analytics Panel** showing task status breakdown
-- 📝 **Task Note Editor** — Write and save custom notes
-- 🎨 **SketchPad** — Draw and doodle with your mouse
-- 💾 **Persistent Storage** with JSON
+---
 
-## 📸 Screenshots
+## 🚀 Features
 
-| Task Manager | Note Editor | SketchPad |
-|--------------|-------------|-----------|
-| ![Task View](https://via.placeholder.com/200x100) | ![Note Editor](https://via.placeholder.com/200x100) | ![SketchPad](https://via.placeholder.com/200x100) |
+### ✅ Task Management
+- Add new tasks with:
+  - Priority (Low / Medium / High)
+  - Due date
+- Edit existing tasks
+- Mark tasks as **Done** or **Pending**
+- Delete selected tasks
+- Search tasks using keywords
+- Clear all tasks with confirmation
 
-*Replace with real screenshots from your app*
+### 🌙 UI Features
+- Light/Dark Mode toggle
+- Responsive layout
+- Organized buttons and list display
 
-## 🚀 How to Run
+### 📊 Analytics
+- Automatically shows:
+  - Total tasks
+  - Done tasks
+  - Pending tasks
 
-1. **Install Python (if not already installed)**  
-   [Download Python](https://www.python.org/downloads/)
+### 📝 Enhanced Notes System
+- Rich text editor with:
+  - Save / Load / Clear
+  - 🕒 Insert current timestamp
+  - 📊 Insert task summary (total, done, pending)
+  - 📤 Export notes to a custom file
+  - 🔄 Auto-save every 1 minute
+  - 📃 Word counter (bottom of window)
+- Automatically logs each new task to the notes file
 
-2. **Clone the repository or download the `.py` file**  
-   ```bash
-   git clone https://github.com/8767satyamshinde/cloudcredits-python-internship.git
-   cd cloudcredits-python-internship/ToDo_LIST/ToDo_Desktop_App
+### 🎨 SketchPad
+- Simple canvas to draw or brainstorm
+- Clear button to reset canvas
+
+---
+
+## 🗂 File Structure
+

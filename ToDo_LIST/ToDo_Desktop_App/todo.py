@@ -43,6 +43,11 @@ def add_task():
         save_tasks()
         refresh_task_list()
         task_entry.delete(0, tk.END)
+
+        # Append to notes log
+        with open("task_note.txt", "a") as f:
+            f.write(f"🆕 Task Added: {new_task['task']} | Due: {new_task['due']} | Priority: {new_task['priority']}\n")
+
     else:
         messagebox.showwarning("Empty Task", "Please enter a task name.")
 
@@ -123,16 +128,14 @@ def update_analytics():
     pending = total - done
     analytics_label.config(text=f"📊 Total: {total} | ✔️ Done: {done} | ⏳ Pending: {pending}")
 
-# 🔥 UPDATED NOTES FEATURE
 def open_text_editor():
     editor = tk.Toplevel(root)
     editor.title("📝 Task Notes")
-    editor.geometry("450x450")
-    
+    editor.geometry("500x550")
+
     text_area = tk.Text(editor, wrap="word", font=("Arial", 11))
     text_area.pack(expand=True, fill="both", padx=5, pady=5)
 
-    # Load existing note
     if os.path.exists("task_note.txt"):
         with open("task_note.txt", "r") as f:
             content = f.read()
@@ -156,11 +159,51 @@ def open_text_editor():
     def clear_note():
         text_area.delete("1.0", tk.END)
 
+    def insert_timestamp():
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text_area.insert(tk.INSERT, f"[{now}] ")
+
+    def insert_summary():
+        total = len(tasks)
+        done = sum(1 for t in tasks if t["status"] == "Done")
+        pending = total - done
+        summary = f"\n--- Task Summary ---\nTotal: {total}\n✔️ Done: {done}\n⏳ Pending: {pending}\n"
+        text_area.insert(tk.END, summary)
+
+    def export_note():
+        filename = simpledialog.askstring("Export File", "Enter file name (e.g., MyNotes.txt):")
+        if filename:
+            with open(filename, "w") as f:
+                f.write(text_area.get("1.0", tk.END).strip())
+            messagebox.showinfo("Exported", f"Notes exported to {filename}")
+
+    def auto_save():
+        content = text_area.get("1.0", tk.END).strip()
+        with open("task_note.txt", "w") as f:
+            f.write(content)
+        editor.after(60000, auto_save)
+
+    word_count_label = tk.Label(editor, text="Words: 0", font=("Arial", 9))
+    word_count_label.pack(side="bottom", pady=3)
+
+    def update_word_count(event=None):
+        text = text_area.get("1.0", tk.END)
+        words = len(text.split())
+        word_count_label.config(text=f"Words: {words}")
+
+    text_area.bind("<KeyRelease>", update_word_count)
+
     btn_frame = tk.Frame(editor)
-    btn_frame.pack(pady=5)
-    tk.Button(btn_frame, text="💾 Save Note", command=save_note, width=12).grid(row=0, column=0, padx=5)
-    tk.Button(btn_frame, text="🧾 Load Note", command=load_note, width=12).grid(row=0, column=1, padx=5)
-    tk.Button(btn_frame, text="🧹 Clear Note", command=clear_note, width=12).grid(row=0, column=2, padx=5)
+    btn_frame.pack(pady=6)
+
+    tk.Button(btn_frame, text="💾 Save", command=save_note, width=12).grid(row=0, column=0, padx=4)
+    tk.Button(btn_frame, text="🧾 Load", command=load_note, width=12).grid(row=0, column=1, padx=4)
+    tk.Button(btn_frame, text="🧹 Clear", command=clear_note, width=12).grid(row=0, column=2, padx=4)
+    tk.Button(btn_frame, text="⏰ Time", command=insert_timestamp, width=12).grid(row=1, column=0, padx=4, pady=5)
+    tk.Button(btn_frame, text="📊 Summary", command=insert_summary, width=12).grid(row=1, column=1, padx=4)
+    tk.Button(btn_frame, text="📤 Export", command=export_note, width=12).grid(row=1, column=2, padx=4)
+
+    auto_save()
 
 def open_paint():
     paint = tk.Toplevel(root)
@@ -174,7 +217,7 @@ def open_paint():
     canvas.bind("<B1-Motion>", draw)
     tk.Button(paint, text="🧹 Clear Canvas", command=lambda: canvas.delete("all")).pack(pady=5)
 
-# --- GUI Setup ---
+# GUI Setup
 root = tk.Tk()
 root.title("📝 Advanced To-Do List")
 root.geometry("650x720")
@@ -212,7 +255,6 @@ task_listbox.pack(pady=15)
 analytics_label = tk.Label(root, text="📊 Stats: Loading...", bg="#ffffff", font=("Arial", 11))
 analytics_label.pack(pady=8)
 
-# Start the application
 load_tasks()
 refresh_task_list()
 root.mainloop()
