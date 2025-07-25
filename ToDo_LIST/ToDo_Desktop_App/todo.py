@@ -1,20 +1,33 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-import json, datetime, os
+import json, datetime, os, random
 
 TASK_FILE = "tasks.json"
 tasks = []
 dark_mode = False
 
+QUOTES = [
+    "Push yourself, because no one else is going to do it for you.",
+    "Success is what comes after you stop making excuses.",
+    "Great things never come from comfort zones.",
+    "Dream it. Wish it. Do it.",
+]
+
 def save_tasks():
     with open(TASK_FILE, "w") as file:
         json.dump(tasks, file, indent=4)
+    backup_tasks()
 
 def load_tasks():
     global tasks
     if os.path.exists(TASK_FILE):
         with open(TASK_FILE, "r") as file:
             tasks = json.load(file)
+
+def backup_tasks():
+    backup_file = f"backup_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    with open(backup_file, "w") as f:
+        json.dump(tasks, f, indent=4)
 
 def refresh_task_list(filtered=None):
     task_listbox.delete(0, tk.END)
@@ -44,10 +57,8 @@ def add_task():
         refresh_task_list()
         task_entry.delete(0, tk.END)
 
-        # Append to notes log
         with open("task_note.txt", "a") as f:
             f.write(f"🆕 Task Added: {new_task['task']} | Due: {new_task['due']} | Priority: {new_task['priority']}\n")
-
     else:
         messagebox.showwarning("Empty Task", "Please enter a task name.")
 
@@ -67,12 +78,7 @@ def mark_done():
     if selected:
         index = selected[0]
         current_status = tasks[index]["status"]
-        if current_status == "Pending":
-            tasks[index]["status"] = "Done"
-            messagebox.showinfo("Marked", "Task marked as Done.")
-        else:
-            tasks[index]["status"] = "Pending"
-            messagebox.showinfo("Unmarked", "Task marked as Pending.")
+        tasks[index]["status"] = "Done" if current_status == "Pending" else "Pending"
         save_tasks()
         refresh_task_list()
     else:
@@ -217,6 +223,37 @@ def open_paint():
     canvas.bind("<B1-Motion>", draw)
     tk.Button(paint, text="🧹 Clear Canvas", command=lambda: canvas.delete("all")).pack(pady=5)
 
+def show_today_reminders():
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    today_tasks = [t for t in tasks if t.get("due") == today and t["status"] != "Done"]
+    if today_tasks:
+        task_lines = "\n".join([f"- {t['task']} (Priority: {t.get('priority')})" for t in today_tasks])
+        messagebox.showinfo("🗓️ Today's Tasks", f"Tasks due today:\n\n{task_lines}")
+
+def open_calendar_view():
+    cal_win = tk.Toplevel(root)
+    cal_win.title("📅 Calendar View")
+    cal_win.geometry("450x400")
+
+    calendar_box = tk.Text(cal_win, font=("Courier New", 10), wrap="word")
+    calendar_box.pack(expand=True, fill="both", padx=10, pady=10)
+
+    grouped = {}
+    for task in tasks:
+        due = task.get("due", "No Due Date")
+        grouped.setdefault(due, []).append(task)
+
+    for due, group in sorted(grouped.items()):
+        calendar_box.insert(tk.END, f"\n📆 {due}\n" + "-"*40 + "\n")
+        for t in group:
+            status = "✔️" if t["status"] == "Done" else "⏳"
+            line = f"{status} [{t.get('priority', 'Medium')}] {t['task']}\n"
+            calendar_box.insert(tk.END, line)
+
+def show_motivational_quote():
+    quote = random.choice(QUOTES)
+    messagebox.showinfo("💡 Motivation", quote)
+
 # GUI Setup
 root = tk.Tk()
 root.title("📝 Advanced To-Do List")
@@ -244,6 +281,7 @@ btns = [
     ("🌓 Toggle Theme", toggle_theme),
     ("📝 Notes", open_text_editor),
     ("🎨 SketchPad", open_paint),
+    ("📅 Calendar", open_calendar_view),
 ]
 
 for i, (text, cmd) in enumerate(btns):
@@ -257,4 +295,6 @@ analytics_label.pack(pady=8)
 
 load_tasks()
 refresh_task_list()
+show_motivational_quote()
+show_today_reminders()
 root.mainloop()
