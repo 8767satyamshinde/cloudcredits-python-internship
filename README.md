@@ -1,103 +1,85 @@
-# 📝 To-Do List App — README (Updated on: 25 July 2025)
+# Create a detailed README.md based on the user's provided code
+readme_content = """
+# 📝 Advanced To-Do List + Sketch + Notes Desktop App
 
-### 🔧 Developed Using:
-- **Language:** Python  
-- **Libraries:** `tkinter`, `json`, `datetime`, `os`, `messagebox`, `simpledialog`
-
----
-
-## ✅ Overview
-This is a **Tkinter-based Productivity Desktop App** that combines task management, note-taking, sketching, daily reminders, and motivational quotes. It's designed to help you stay organized and productive — all from one easy-to-use interface.
+A feature-rich desktop productivity tool built with Python and Tkinter, designed to manage tasks, take notes, draw sketches, and visualize deadlines — all in one place.
 
 ---
 
-## 🚀 Key Features Implemented Today (25 July 2025)
-
-### 1. ✅ **To-Do Task Management**
-- Add tasks with **title, due date, and priority**
-- Mark tasks as **Done** or **Pending**
-- Edit tasks with updated info
-- Delete individual tasks
-- Clear all tasks with one button
-- Real-time task count:
-  - ✅ Completed tasks
-  - ❌ Pending tasks
-  - 📊 Total tasks
+## 📅 Date
+**28 July 2025**
 
 ---
 
-### 2. 📝 **Notes Feature**
-- Write, save, load, and clear notes
-- Insert **current timestamp**
-- Insert **task summary**
-- Export notes to a `.txt` file
-- Live **word count**
-- Auto-save notes every 60 seconds
+## 🔧 Technologies Used
+
+- Python 3.x
+- Tkinter (GUI)
+- JSON (Data storage)
+- Built-in modules: `datetime`, `os`, `random`
 
 ---
 
-### 3. 🎨 **SketchPad**
-- A paint canvas where you can:
-  - Freely draw with your mouse
-  - Use the **Clear** button to reset
-- Useful for visual ideas or quick diagrams
+## 🚀 Features
+
+### ✅ Task Manager
+- Add, edit, delete, and search tasks
+- Track due dates and priorities
+- Mark tasks as "Done" or "Pending"
+- Analytics summary of task status
+- Auto-save and backup system
+
+### 🎨 SketchPad
+- Draw with custom brush sizes
+- Eraser toggle and undo option
+- Clean whiteboard with color support
+
+### 📝 Notes Editor
+- Rich text editor for journaling
+- Auto-save every 60 seconds
+- Timestamp and task summary insertions
+- Save, load, and export notes
+
+### 🌗 Theme Toggle
+- Toggle between Light and Dark themes
+
+### 📅 Calendar View
+- View tasks grouped by due dates
+
+### 🔁 Data Management
+- Auto-backups of task files
+- Persistent task tracking with JSON
+
+### 💡 Extras
+- Motivational quote on launch
+- Today's task reminders
 
 ---
 
-### 4. 📅 **Calendar Task Viewer**
-- See your tasks grouped by **date**
-- Scrollable view of upcoming deadlines
-- Visually organized by **Today, Upcoming, and Past**
+## 📁 Files and Structure
+
+| File              | Description                          |
+|------------------|--------------------------------------|
+| `main.py`         | Full source code (GUI and logic)     |
+| `tasks.json`      | Stores task data persistently        |
+| `task_note.txt`   | Stores notes from the Notes Editor   |
+| `backup_*.json`   | Timestamped backups of task data     |
 
 ---
 
-### 5. 🌞/🌙 **Theme Switcher**
-- Toggle between:
-  - Light Mode ☀️
-  - Dark Mode 🌙
+## ▶️ How to Run
+
+1. Make sure Python 3 is installed.
+2. Save the source code to a file named `main.py`.
+3. Run the app with:
+
+```bash
+python main.py
+
+
+## 👨‍💻 Developer Info
+Satyam Shinde
+🎓 M.Tech in AI, PCU
+📧 shindesatyam72@gmail.com
 
 ---
-
-### 6. 📬 **Daily Task Reminders**
-- At app startup, shows a pop-up if you have tasks due **today**
-
----
-
-### 7. 💡 **Motivational Quote Generator**
-- Displays a new **motivational quote** on every app start
-
----
-
-## 📁 Files Used
-| File | Purpose |
-|------|---------|
-| `tasks.json` | Stores all your task data |
-| `task_note.txt` | Saves the note-taking content |
-| `backup_YYYYMMDD_HHMMSS.json` | Automatically created backup file of tasks |
-| `exported_notes.txt` | Your saved note file (custom name allowed) |
-
----
-
-## 📌 What You Can Do With the App Today
-- Manage daily, academic, or personal tasks
-- Maintain a journal or daily log
-- Draw diagrams or ideas using SketchPad
-- Get **motivated daily** with quotes
-- See all deadlines clearly on calendar
-- Track your productivity with live stats
-
----
-
-## 🔄 Coming Features (Optional Ideas)
-Let me know if you want to add any of these:
-- 🔔 Sound notifications for deadlines
-- 📅 Google Calendar integration
-- 🧠 AI-based suggestions or summaries
-- ☁️ Cloud-based backup or sync
-- 👨‍👩‍👧‍👦 Family Info section with editable tasks
-
----
-
-👨‍💻 **Author:** Satyam Shinde  
-📅 **Date:** 25 July 2025  
-📩 **Email:** shindesatyam72@gmail.com  

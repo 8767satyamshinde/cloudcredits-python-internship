@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 import json, datetime, os, random
 
+
 TASK_FILE = "tasks.json"
 tasks = []
 dark_mode = False
@@ -222,6 +223,60 @@ def open_paint():
         canvas.create_oval(x-2, y-2, x+2, y+2, fill="black", outline="black")
     canvas.bind("<B1-Motion>", draw)
     tk.Button(paint, text="🧹 Clear Canvas", command=lambda: canvas.delete("all")).pack(pady=5)
+
+def open_paint():
+    paint = tk.Toplevel(root)
+    paint.title("🎨 SketchPad")
+    paint.geometry("500x500")
+
+    current_color = "black"
+    brush_size = tk.IntVar(value=3)
+    erasing = tk.BooleanVar(value=False)
+    drawn_items = []
+
+    canvas = tk.Canvas(paint, bg="white")
+    canvas.pack(fill="both", expand=True)
+
+    def draw(event):
+        size = brush_size.get()
+        color = "white" if erasing.get() else current_color
+        item = canvas.create_oval(
+            event.x - size, event.y - size,
+            event.x + size, event.y + size,
+            fill=color, outline=color
+        )
+        drawn_items.append(item)
+
+    def toggle_eraser():
+        erasing.set(not erasing.get())
+        eraser_btn.config(
+            text="✏️ Pencil" if erasing.get() else "🩹 Eraser",
+            bg="#fbb" if erasing.get() else "#d0f0c0"
+        )
+
+    def undo_last():
+        if drawn_items:
+            canvas.delete(drawn_items.pop())
+
+    def clear_canvas():
+        canvas.delete("all")
+        drawn_items.clear()
+
+    canvas.bind("<B1-Motion>", draw)
+
+    # Controls frame
+    controls = tk.Frame(paint)
+    controls.pack(pady=5)
+
+    tk.Label(controls, text="Brush Size:").grid(row=0, column=0, padx=5)
+    tk.Scale(controls, from_=1, to=10, orient="horizontal", variable=brush_size).grid(row=0, column=1, padx=5)
+
+    eraser_btn = tk.Button(controls, text="🩹 Eraser", bg="#d0f0c0", command=toggle_eraser)
+    eraser_btn.grid(row=0, column=2, padx=5)
+
+    tk.Button(controls, text="↩️ Undo", command=undo_last).grid(row=0, column=3, padx=5)
+    tk.Button(controls, text="🧹 Clear", command=clear_canvas).grid(row=0, column=4, padx=5)
+
 
 def show_today_reminders():
     today = datetime.datetime.now().strftime("%Y-%m-%d")
