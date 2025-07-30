@@ -1,85 +1,110 @@
-# Create a detailed README.md based on the user's provided code
-readme_content = """
-# 📝 Advanced To-Do List + Sketch + Notes Desktop App
-
-A feature-rich desktop productivity tool built with Python and Tkinter, designed to manage tasks, take notes, draw sketches, and visualize deadlines — all in one place.
+Here is a complete and updated **`README.md`** file for your advanced To-Do List application with added features like **SketchPad**, **Text Editor**, **Calendar**, **Motivational Quotes**, and **Statistics**:
 
 ---
 
-## 📅 Date
-**28 July 2025**
+### 📘 `README.md`
+
+```markdown
+# 📝 Advanced To-Do List Application (with SketchPad & Notes)
+
+This is a powerful Python-based desktop To-Do List app using **Tkinter GUI**. It allows users to manage tasks efficiently with enhanced features like:
+- 🎨 SketchPad Drawing Tool
+- 📝 Rich Text Notes Editor
+- 📅 Calendar View of Tasks
+- 💡 Motivational Quotes
+- 📊 Task Analytics (Done/Pending)
+- 🌙 Light/Dark Mode Toggle
 
 ---
 
-## 🔧 Technologies Used
+## ✅ Features
 
-- Python 3.x
-- Tkinter (GUI)
-- JSON (Data storage)
-- Built-in modules: `datetime`, `os`, `random`
-
----
-
-## 🚀 Features
-
-### ✅ Task Manager
-- Add, edit, delete, and search tasks
-- Track due dates and priorities
-- Mark tasks as "Done" or "Pending"
-- Analytics summary of task status
-- Auto-save and backup system
-
-### 🎨 SketchPad
-- Draw with custom brush sizes
-- Eraser toggle and undo option
-- Clean whiteboard with color support
+### 📋 Task Management
+- Add new tasks with **priority** and **due date**
+- Mark tasks as **Done** or **Pending**
+- Edit existing tasks
+- Delete individual or all tasks
+- Search tasks by keyword
+- Automatically **backup** tasks on every change
 
 ### 📝 Notes Editor
-- Rich text editor for journaling
-- Auto-save every 60 seconds
-- Timestamp and task summary insertions
-- Save, load, and export notes
+- Open rich text editor with full features
+- Save/load notes from `task_note.txt`
+- Insert current **timestamp**
+- View **task summary** inside notes
+- Auto-save notes every 60 seconds
+- Export notes to custom `.txt` file
+- Word count label at the bottom
 
-### 🌗 Theme Toggle
-- Toggle between Light and Dark themes
+### 🎨 SketchPad Drawing Tool *(Updated)*
+- Draw freehand sketches using the mouse
+- Choose **brush size** using a slider
+- Select any **brush color**
+- Use **eraser tool**
+- Undo last stroke
+- Change entire **canvas background color**
+- Clear all drawings
 
 ### 📅 Calendar View
-- View tasks grouped by due dates
+- See all tasks grouped by their **due date**
 
-### 🔁 Data Management
-- Auto-backups of task files
-- Persistent task tracking with JSON
+### 💡 Motivation
+- Shows random motivational quote on every launch
 
-### 💡 Extras
-- Motivational quote on launch
-- Today's task reminders
+### 🌙 Light/Dark Theme
+- Toggle between light and dark mode
 
 ---
 
-## 📁 Files and Structure
+## 🗃️ File Structure
 
-| File              | Description                          |
-|------------------|--------------------------------------|
-| `main.py`         | Full source code (GUI and logic)     |
-| `tasks.json`      | Stores task data persistently        |
-| `task_note.txt`   | Stores notes from the Notes Editor   |
-| `backup_*.json`   | Timestamped backups of task data     |
+```
+
+📁 Project Directory
+├── tasks.json              # Main task storage (auto-created)
+├── task\_note.txt           # Notes editor save file
+├── backup\_\*.json           # Auto-backup file created on each save
+├── main.py                 # Main Python code
+└── README.md               # Project readme (you’re reading it)
+
+````
 
 ---
 
-## ▶️ How to Run
+## 💻 Requirements
 
-1. Make sure Python 3 is installed.
-2. Save the source code to a file named `main.py`.
-3. Run the app with:
+- Python 3.x
+- Tkinter (comes with standard Python)
+- `json`, `os`, `datetime`, `random`, `colorchooser`
+
+Install if missing:
+```bash
+pip install tk
+````
+
+---
+
+## 🚀 How to Run
+
+1. Save the provided code as `main.py`
+2. Open terminal in the same directory
+3. Run the app using:
 
 ```bash
 python main.py
-
-
-## 👨‍💻 Developer Info
-Satyam Shinde
-🎓 M.Tech in AI, PCU
-📧 shindesatyam72@gmail.com
+```
 
 ---
+
+## 🙌 Credits
+
+Developed by: **Satyam Shinde**
+Language: **Python (Tkinter GUI)**
+Project Type: **Desktop Application**
+
+```
+
+---
+
+Let me know if you also want a separate PDF version, GitHub setup instructions, or badges added for a repository.
+```
