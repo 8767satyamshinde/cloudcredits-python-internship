@@ -1,120 +1,68 @@
+# 📝 Advanced To-Do List App
+
+An all-in-one **desktop task manager** built using **Python and Tkinter**, designed to help users manage their daily tasks efficiently with rich features like due dates, reminders, priority tagging, dark mode, notes, calendar view, and more.
 
 ---
 
-## 📝 Advanced To-Do List Application (Tkinter-based Desktop App)
+## 🚀 Features
 
-### 🔧 Developed By: Satyam Shinde
+### ✅ Task Management
+- Add, Edit, Delete tasks
+- Mark tasks as Done or Pending
+- Assign Due Dates
+- Set Priority (Low / Medium / High)
 
-> Built using **Python** and **Tkinter**
-> Internship Project – CloudCredits
-> Date: August 2025
+### 🔍 Search and Sort
+- Search tasks by keyword
+- Sort tasks by due date or priority
 
----
+### 📊 Analytics
+- Real-time dashboard showing:
+  - Total tasks
+  - Completed tasks
+  - Pending tasks
 
-### 📌 Project Description
+### ⏰ Reminders
+- Set custom time-based reminders per task
+- Notification pops up at specified time
 
-This is an advanced and feature-rich **To-Do List Desktop Application** built using Python's `tkinter` library. It not only helps users manage their daily tasks but also provides powerful utilities like:
+### 📤 Export & Backup
+- Auto-backup tasks in JSON format with timestamps
+- Export tasks to readable `.txt` files
 
-* Task analytics
-* Theme toggling
-* Built-in note-taking
-* Calendar view
-* Paintpad
-* Reminders
-* Exporting tasks
-* And more...
+### 📅 Calendar View
+- Group tasks by due date in a calendar-style view
 
-The goal was to create a user-friendly productivity tool combining multiple essential utilities in one lightweight application.
+### 📓 Notes Editor
+- Built-in text editor with:
+  - Auto-save every minute
+  - Word count display
+  - Export notes
+  - Insert time stamps and task summary
 
----
+### 🎨 SketchPad
+- Paint interface for doodling, diagrams or visual notes
+- Choose brush color, background, erase, and undo
 
-### 🚀 Features Overview
+### 🌓 Dark Mode
+- Toggle between light and dark themes for better usability
 
-| Feature                 | Description                                                    |
-| ----------------------- | -------------------------------------------------------------- |
-| ✅ Add/Edit/Delete Tasks | Add tasks with priority and due date, edit or delete as needed |
-| 📌 Mark as Done         | Mark any task as completed or revert                           |
-| 🌓 Dark Mode            | Toggle between light and dark themes                           |
-| 🔎 Search               | Search tasks by keyword                                        |
-| 📅 Calendar View        | View tasks grouped by due dates                                |
-| ⏰ Reminder              | Set time-based popup reminders                                 |
-| 📊 Task Analytics       | View total, completed, and pending task stats                  |
-| 📝 Notes Pad            | Add and save notes in a built-in text editor                   |
-| 🎨 SketchPad            | Draw or doodle using a mini paint utility                      |
-| 📤 Export Tasks         | Export all tasks to a `.txt` file                              |
-| 🧠 Motivational Quotes  | Displayed randomly on startup                                  |
-| 🔁 Duplicate & Sort     | Clone a task or sort by date/priority                          |
-| 💾 Auto Backup          | Tasks are automatically backed up with timestamps              |
-| 📂 Persistent Storage   | All tasks are stored in a `tasks.json` file                    |
-
----
-
-### 🖥️ GUI Preview (Screenshots)
-
-> You can add screenshots here if uploading to GitHub.
+### 📋 Other Features
+- Duplicate existing tasks
+- Show today’s due tasks on app launch
+- Random motivational quote on startup
+- Clear all tasks in one click
 
 ---
 
-### 🛠️ Tech Stack
+## 🖥️ Tech Stack
 
-* **Frontend & GUI**: `tkinter`
-* **Backend/Data Storage**: `JSON`
-* **Language**: `Python 3.x`
-
----
-
-### 📁 File Structure
-
-```
-📦 Advanced To-Do List
-│
-├── main.py             # Complete application code
-├── tasks.json          # JSON storage file (auto-created)
-├── backup_*.json       # Automatic backup files
-├── task_note.txt       # Notes saved from built-in editor
-└── README.md           # Project documentation
-```
+- **Python 3**
+- **Tkinter** – GUI toolkit
+- **JSON** – for task storage
+- **datetime**, **os**, **random** – for utility operations
 
 ---
 
-### 📝 How to Run
+## 📁 File Structure
 
-1. Make sure you have **Python 3** installed.
-2. Download the project folder or clone it:
-
-   ```bash
-   git clone https://github.com/your-username/todo-desktop-app.git
-   ```
-3. Run the app:
-
-   ```bash
-   python main.py
-   ```
-
-> Note: You don’t need to install any third-party libraries.
-
----
-
-### 🎯 Use Case
-
-This app is perfect for:
-
-* Students planning their coursework
-* Developers managing mini-projects
-* Interns tracking tasks during internships
-* Anyone looking for a personal productivity dashboard
-
-
----
-
-### 🙋‍♂️ About Me
-
-**Satyam Shinde**
-
-* M.Tech – AI, Pimpri Chinchwad University
-* Developer | Python | Java | Full Stack | Data Science
-* 🌐 [LinkedIn](https://www.linkedin.com/in/satyam-shinde/)
-* 📧 [shindesatyam72@gmail.com](mailto:shindesatyam72@gmail.com)
-* 📱 8767700148
-
----
